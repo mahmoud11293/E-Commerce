@@ -8,7 +8,6 @@ const userSchema = new Schema(
     userName: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
@@ -26,7 +25,7 @@ const userSchema = new Schema(
     gender: {
       type: String,
       required: true,
-      enum: ["Male", "Female", "Other"],
+      enum: ["Male", "Female"],
     },
     phone: {
       type: String,

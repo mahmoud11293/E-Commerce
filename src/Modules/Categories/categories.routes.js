@@ -1,5 +1,6 @@
 import { Router } from "express";
 const categoryRouter = Router();
+import * as schema from "./categories.schema.js";
 // middlewares
 import * as middlewares from "../../Middlewares/index.js";
 const {
@@ -8,6 +9,7 @@ const {
   errorHandler,
   authenticate,
   authorization,
+  validationMiddleware,
 } = middlewares;
 // utils
 import { extensions, systemRoles } from "../../utils/index.js";
@@ -21,17 +23,19 @@ import { Category } from "../../../DB/models/index.js";
 categoryRouter.post(
   "/create",
   multerHost({ allowedExtensions: extensions.Images }).single("image"),
-  getDocumentByName(Category),
-  authenticate(),
-  authorization(ADMIN),
+  errorHandler(validationMiddleware(schema.createCategorySchema)),
+  errorHandler(getDocumentByName(Category)),
+  errorHandler(authenticate()),
+  errorHandler(authorization(ADMIN)),
   errorHandler(controller.createCategory)
 );
 
 // get category Router
 categoryRouter.get(
   "/",
-  authenticate(),
-  authorization(ADMIN),
+  errorHandler(validationMiddleware(schema.getCategoriesSchema)),
+  errorHandler(authenticate()),
+  errorHandler(authorization(ADMIN)),
   errorHandler(controller.getCategory)
 );
 
@@ -39,17 +43,19 @@ categoryRouter.get(
 categoryRouter.put(
   "/update/:_id",
   multerHost({ allowedExtensions: extensions.Images }).single("image"),
-  getDocumentByName(Category),
-  authenticate(),
-  authorization(ADMIN),
+  errorHandler(validationMiddleware(schema.updateCategorySchema)),
+  errorHandler(getDocumentByName(Category)),
+  errorHandler(authenticate()),
+  errorHandler(authorization(ADMIN)),
   errorHandler(controller.updateCategory)
 );
 
 // delete category Router
 categoryRouter.delete(
   "/delete/:_id",
-  authenticate(),
-  authorization(ADMIN),
+  errorHandler(validationMiddleware(schema.deleteCategorySchema)),
+  errorHandler(authenticate()),
+  errorHandler(authorization(ADMIN)),
   errorHandler(controller.deleteCategory)
 );
 export { categoryRouter };

@@ -2,16 +2,8 @@ import { ErrorClassHandler } from "../utils/error-class.utils.js";
 
 export const errorHandler = (API) => {
   return (req, res, next) => {
-    API(req, res, next).catch((error) => {
-      console.log("Error in ErrorHandle middleware", error);
-      next(
-        new ErrorClassHandler(
-          "Internal server error",
-          500,
-          error.stack,
-          error.name
-        )
-      );
+    API(req, res, next)?.catch((err) => {
+      next(new ErrorClassHandler("Internal Server error", 500, err?.message));
     });
   };
 };

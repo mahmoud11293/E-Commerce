@@ -94,7 +94,11 @@ export const getSubCategory = async (req, res, next) => {
 
   if (!subCategory) {
     return next(
-      new ErrorClassHandler("Category not found", 404, "Category not found")
+      new ErrorClassHandler(
+        "subCategory not found",
+        404,
+        "subCategory not found"
+      )
     );
   }
 

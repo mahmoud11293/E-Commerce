@@ -86,7 +86,7 @@ export const listReviews = async (req, res, next) => {
   res.status(200).json({ message: "Review Found", review });
 };
 
-// approve or reject review\
+// ======================= approve or reject review =======================
 export const reviewStatusChanging = async (req, res, next) => {
   const { reviewId } = req.params;
   const { accept, reject } = req.body;
